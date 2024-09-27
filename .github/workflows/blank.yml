@@ -67,21 +67,3 @@ jobs:
           plugin_languages_sections: recently-used
           plugin_languages_colors: github
           plugin_languages_limit: 8
-
-      # Generate contribution activity
-      - name: Generate Contributions
-        uses: lowlighter/metrics@latest
-        with:
-          filename: metrics.plugin.contributors.categories.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          template: repository
-          repo: metrics
-          plugin_contributors_sections: categories
-          plugin_contributors: yes
-          plugin_contributors_categories: |
-            {
-              "📚 Documentation": ["README.md", "docs/**"],
-              "💻 Code": ["source/**", "src/**"],
-              "#️⃣ Others": ["*"]
-            }

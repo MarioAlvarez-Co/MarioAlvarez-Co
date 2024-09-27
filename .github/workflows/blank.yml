@@ -28,7 +28,6 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           base: ""
           plugin_repositories: yes
-          plugin_repositories_featured: sistema-gestion-inventarios, hoja_de_vida
           plugin_repositories_order: featured, pinned, starred, random
           plugin_repositories_pinned: 6
           plugin_repositories_affiliations: owner, collaborator, organization_member

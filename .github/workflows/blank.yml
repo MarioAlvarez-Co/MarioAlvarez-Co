@@ -1,73 +1,63 @@
 name: Half-year calendar
 
 on:
- schedule:
-   - cron: "0 0 * * *" 
- workflow_dispatch:
- push:
-   branches:
-     - main
-     
-jobs:
- generate:
-   permissions:
-     contents: write
-   runs-on: ubuntu-latest
-   timeout-minutes: 5
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-   steps:
-     # Checkout the repository
-     - name: Checkout repository
-       uses: actions/checkout@v3
-      # Generate repositories
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      # Generate pinned repositories
       - name: Pinned repositories
-    	uses: lowlighter/metrics@latest
-    	with:
-    	  filename: plugin.repositories.pinned.svg
-    	  token: ${{ secrets.METRICS_TOKEN }}
-    	  base: ""
-    	  plugin_repositories: yes
-    	  plugin_repositories: yes
-    	  plugin_repositories_featured:  sistema-gestion-inventarios,  hoja_de_vida 
-    	  plugin_repositories_order: featured, pinned, starred, random
-    	  plugin_repositories_pinned: 6
-    	  plugin_repositories_affiliations: owner, collaborator, organization_member      
-             # Generate basic profile
-     - name: Generate basic profile
-       uses: lowlighter/metrics@latest
-       with:
-         filename: basicprofile.plugin.classic.svg
-         token: ${{ secrets.METRICS_TOKEN }}
-         template: classic
-         base: header, activity, community, repositories, metadata
-         config_timezone: America/Bogota
-         plugin_introduction: yes
-         plugin_introduction_title: yes
-         plugin_stargazers: yes
-               # Generate repositories
-      - name: Pinned repositories
-    	uses: lowlighter/metrics@latest
-    	with:
-    	  filename: plugin.repositories.pinned.svg
-    	  token: ${{ secrets.METRICS_TOKEN }}
-    	  base: ""
-    	  plugin_repositories: yes
-    	  plugin_repositories: yes
-    	  plugin_repositories_featured:  sistema-gestion-inventarios,  hoja_de_vida 
-    	  plugin_repositories_order: featured, pinned, starred, random
-    	  plugin_repositories_pinned: 6
-    	  plugin_repositories_affiliations: owner, collaborator, organization_member 
-           # Generate full calendar
-     - name: Generate half-year calendar
-       uses: lowlighter/metrics@latest
-       with:
-         filename: calendar.plugin.fullyear.svg
-         token: ${{ secrets.METRICS_TOKEN }}
-         base: ""
-         plugin_isocalendar: yes
-         plugin_isocalendar_duration: full-year
-            # Generate Lenguage activity
+        uses: lowlighter/metrics@latest
+        with:
+          filename: plugin.repositories.pinned.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_repositories: yes
+          plugin_repositories_featured: sistema-gestion-inventarios, hoja_de_vida
+          plugin_repositories_order: featured, pinned, starred, random
+          plugin_repositories_pinned: 6
+          plugin_repositories_affiliations: owner, collaborator, organization_member
+      
+      # Generate basic profile
+      - name: Generate basic profile
+        uses: lowlighter/metrics@latest
+        with:
+          filename: basicprofile.plugin.classic.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: America/Bogota
+          plugin_introduction: yes
+          plugin_introduction_title: yes
+          plugin_stargazers: yes
+      
+      # Generate full calendar
       - name: Generate half-year calendar
+        uses: lowlighter/metrics@latest
+        with:
+          filename: calendar.plugin.fullyear.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+
+      # Generate language activity
+      - name: Generate language activity
         uses: lowlighter/metrics@latest
         with:
           filename: calendar.plugin.fullyear.svg
@@ -78,20 +68,21 @@ jobs:
           plugin_languages_sections: recently-used
           plugin_languages_colors: github
           plugin_languages_limit: 8
-                # Generate contribution activity
+
+      # Generate contribution activity
       - name: Generate Contributions
         uses: lowlighter/metrics@latest
-          with:
-            filename: metrics.plugin.contributors.categories.svg
-            token: ${{ secrets.METRICS_TOKEN }}
-            base: ""
-            template: repository
-            repo: metrics
-            plugin_contributors_sections: categories
-            plugin_contributors: yes
-            plugin_contributors_categories: |
-              {
-                "📚 Documentation": ["README.md", "docs/**"],
-                "💻 Code": ["source/**", "src/**"],
-                "#️⃣ Others": ["*"]
-              }
+        with:
+          filename: metrics.plugin.contributors.categories.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          template: repository
+          repo: metrics
+          plugin_contributors_sections: categories
+          plugin_contributors: yes
+          plugin_contributors_categories: |
+            {
+              "📚 Documentation": ["README.md", "docs/**"],
+              "💻 Code": ["source/**", "src/**"],
+              "#️⃣ Others": ["*"]
+            }
